@@ -1,0 +1,35 @@
+{
+  "name": "yuanshe/wechat-php",
+  "type": "library",
+  "description": "A MP Wechat API SDK with PHP",
+  "keywords": [
+    "WeChat",
+    "Weixin"
+  ],
+  "license": "LGPL-3.0-or-later",
+  "authors": [
+    {
+      "name": "yuanshe",
+      "email": "admin@ysboke.com"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "php": "^7.0",
+    "ext-openssl": "*",
+    "ext-json": "*",
+    "ext-libxml": "*",
+    "ext-simplexml": "*",
+    "guzzlehttp/guzzle": "^6.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "Yuanshe\\WeChatSDK\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Yuanshe\\WeChatSDK\\Example\\": "example/"
+    }
+  }
+}

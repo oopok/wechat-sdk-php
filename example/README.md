@@ -1,10 +1,10 @@
 此文档简要介绍演示代码的结构和使用方式
 
 ### 部署与配置
-0. 确保PHP版本不低于7.0；安装composer依赖
-0. 复制一份`config.example.php`文件到`config.php`，并根据需要修改配置内容
-0. 将程序部署到任意服务器上，需保证`example`目录下的文件可访问，`cache`目录可读写
-0. 在微信公众平台`开发 > 基本配置`中配置`IP白名单`为服务器IP
+1. 确保PHP版本不低于7.0；安装composer依赖
+1. 复制一份`config.example.php`文件到`config.php`，并根据需要修改配置内容
+1. 将程序部署到任意服务器上，需保证`example`目录下的文件可访问，`cache`目录可读写
+1. 在微信公众平台`开发 > 基本配置`中配置`IP白名单`为服务器IP
 
 ### 公众平台测试号
 如果你没有已认证的公众号用于测试，可以去微信官网[申请测试号](https://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=sandbox/login)，测试号拥有绝大部分接口权限

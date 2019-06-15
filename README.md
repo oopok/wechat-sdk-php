@@ -18,6 +18,8 @@ _PS: 使用此工具前需要对公众号开发流程有一定了解，或结合
 
 ### 初始化
 
+使用任何功能前，要实例化一个`WeChat`对象，所有功能都是通过这个对象调用
+
 ```php
 <?php
 
@@ -69,7 +71,7 @@ $wechat = new WeChat($config, $cacheClass);
 
 ## 接口调用
 ### 基本用法
-接口以Model Class的形式封装，通过`WeChat`实例以属性的形式直接调用。_注意：Model名称区分大小写，类名以大写开头，调用时需以小写开头_
+接口以Model Class的形式封装，通过`WeChat`对象以属性的形式直接调用。_注意：Model名称区分大小写，类名以大写开头，调用时需以小写开头_
 
 #### Demo
 获取关注用户列表:
@@ -114,6 +116,8 @@ if (!$wechat->checkNotifyIP($notifyIP)) {
 ```php
 <?php
 
+use Yuanshe\WeChatSDK\Notify;
+
 $notify = $wechat->notify($queries, $body);
 if ($notify instanceof Notify) {
     // ...
@@ -124,13 +128,13 @@ if ($notify instanceof Notify) {
 ```
 - **queries** array类型。请求URL的query部分，以数组键值对的形式传入。通常传入`$_GET`即可
 - **body** string类型。请求体的原始数据，通常传入`file_get_contents('php://input')`即可
-- **@return** 返回值有两种情况。返回string类型时，通知仅用作平台校验，将返回值原样输出即可。否则返回`Notify`实例，包含了本次消息的所有信息
+- **@return** 返回值有两种情况。返回string类型时，通知仅用作平台校验，将返回值原样输出即可。否则返回`Notify`对象，包含了本次消息的所有信息
 - **@throws:**
   - **NotifyException** 消息验证不通过时会抛出该异常
   - **ConfigException** 配置参数出错时抛出该异常
 
 ### 处理消息
-`Notify`实例中包含消息的所有信息，可用如下方法获取:
+`Notify`对象中包含消息的所有信息，可用如下方法获取:
 - `getType(): int` 消息的类型。为`Notify::TYPE_MESSAGE`(消息) 或 `Notify::TYPE_EVENT`(事件)的值
 - `getSubType(): string` 通知的子类型，例如消息中的text、image，事件中的subscribe、scan等。所有值均为小写
 - `getContent(string $name = '')` 传入`name`时返回消息对应字段的值，默认返回消息全部内容的数组
@@ -145,8 +149,10 @@ if ($notify instanceof Notify) {
 ```php
 <?php
 
+use Yuanshe\WeChatSDK\Notify;
+
 if (
-    $notify->getType() == $notify::TYPE_MESSAGE
+    $notify->getType() == Notify::TYPE_MESSAGE
     && $notify->getSubType() == 'text'
 ) {
     echo $notify->replyText('您输入了：' . $notify->getContent('Content'));

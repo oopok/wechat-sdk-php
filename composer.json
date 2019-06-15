@@ -1,5 +1,5 @@
 {
-  "name": "yuanshe/wechat-php",
+  "name": "yuanshe/wechat-sdk",
   "type": "library",
   "description": "A MP Wechat API SDK with PHP",
   "keywords": [

@@ -3,7 +3,7 @@
 use Yuanshe\WeChatSDK\Exception\NotifyException;
 use Yuanshe\WeChatSDK\Notify;
 
-require __DIR__ . '/init.php';
+$wechat = require __DIR__ . '/init.php';
 
 // 校验IP白名单加强安全性
 if (!$wechat->checkNotifyIP($_SERVER['REMOTE_ADDR'])) {
@@ -21,6 +21,8 @@ try {
                     echo $notify->replyText('您输入了：' . $notify->getContent('Content'));
                     break;
                 case 'image':
+                    $wechat->message->typing($notify->getFromUserName(), 'Typing');
+                    $wechat->message->send($notify->getFromUserName(), 'text', ['content' => '您发送了一张图片']);
                     echo $notify->replyImage($notify->getContent('MediaId'));
                     break;
                 default:

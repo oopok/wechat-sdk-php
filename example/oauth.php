@@ -2,7 +2,7 @@
 
 use \Yuanshe\WeChatSDK\Model\OAuth;
 
-require __DIR__ . '/init.php';
+$wechat = require __DIR__ . '/init.php';
 
 $state = 'some_tag';
 

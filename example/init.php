@@ -8,4 +8,4 @@ require __DIR__ . '/Cache.php';
 
 $config = include __DIR__ . '/config.php';
 
-$wechat = new WeChat($config, Cache::class);
+return new WeChat($config, Cache::class);

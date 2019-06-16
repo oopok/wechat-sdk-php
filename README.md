@@ -94,6 +94,7 @@ $menu = $wechat->menu->get();
 - `Tag` 用户标签管理
 - `Template` 模板消息
 - `OAuth` 微信网页OAuth2.0授权
+- `CustomService` 客服系统
 
 更多接口正在完善中...
 
@@ -192,5 +193,5 @@ if (
   - **NotifyException** 通知校验未通过时抛出该异常
   - **ModelException** 公众平台接口返回错误码时会抛出该异常。可以通过`getCode`和`getMessage`方法获取错误码和错误消息，`getModel`方法可以获取到Model名称
 
-## LICENSE
+## License
 LGPL

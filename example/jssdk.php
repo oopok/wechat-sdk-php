@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__ . '/init.php';
+$wechat = require __DIR__ . '/init.php';
 
 $current_url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
 $jssdk_config = $wechat->jsSDK($current_url, ['getNetworkType', 'getLocation', 'scanQRCode']);

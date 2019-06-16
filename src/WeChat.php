@@ -8,6 +8,7 @@ use Yuanshe\WeChatSDK\Exception\ModelException;
 use Yuanshe\WeChatSDK\Exception\NotifyException;
 use Yuanshe\WeChatSDK\Model\Comment;
 use Yuanshe\WeChatSDK\Model\Core;
+use Yuanshe\WeChatSDK\Model\CustomService;
 use Yuanshe\WeChatSDK\Model\Media;
 use Yuanshe\WeChatSDK\Model\Menu;
 use Yuanshe\WeChatSDK\Model\OAuth;
@@ -28,6 +29,7 @@ use Yuanshe\WeChatSDK\Model\User;
  * @property-read Tag tag
  * @property-read Template template
  * @property-read OAuth oAuth
+ * @property-read CustomService customService
  */
 class WeChat
 {

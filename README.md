@@ -10,6 +10,12 @@ _PS: 使用此工具前需要对公众号开发流程有一定了解，或结合
 
 > PHP7已全面流行，PHP官方也不再提供PHP5的支持，因此项目不会考虑PHP7以下版本的兼容
 
+## 安装
+```
+composer require yuanshe/wechat-sdk dev-dev
+```
+> _目前版本为开发版本，正式版本即将发布_
+
 ## 基本示例
 示例代码在`example`目录下，使用方式参考 [example说明](example/README.md)
 

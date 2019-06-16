@@ -21,8 +21,10 @@ try {
                     echo $notify->replyText('您输入了：' . $notify->getContent('Content'));
                     break;
                 case 'image':
-                    $wechat->message->typing($notify->getFromUserName(), 'Typing');
-                    $wechat->message->send($notify->getFromUserName(), 'text', ['content' => '您发送了一张图片']);
+                    $wechat->customService->typing($notify->getFromUserName());
+                    $wechat->customService->sendMessage($notify->getFromUserName(), 'text', [
+                        'content' => '您发送了一张图片'
+                    ]);
                     echo $notify->replyImage($notify->getContent('MediaId'));
                     break;
                 default:

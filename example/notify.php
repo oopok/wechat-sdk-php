@@ -1,5 +1,6 @@
 <?php
 
+use Yuanshe\WeChatSDK\Exception\ModelException;
 use Yuanshe\WeChatSDK\Exception\NotifyException;
 use Yuanshe\WeChatSDK\Notify;
 
@@ -18,10 +19,17 @@ try {
         if ($notify->getType() == Notify::TYPE_MESSAGE) {
             switch ($notify->getSubType()) {
                 case 'text':
+                    try {
+                        $wechat->customService->typing($notify->getFromUserName());
+                        sleep(1); //延迟一秒模拟正在输入状态
+                    } catch (ModelException $e) {
+                        if ($e->getCode() != 45081) {
+                            throw $e;
+                        }
+                    }
                     echo $notify->replyText('您输入了：' . $notify->getContent('Content'));
                     break;
                 case 'image':
-                    $wechat->customService->typing($notify->getFromUserName());
                     $wechat->customService->sendMessage($notify->getFromUserName(), 'text', [
                         'content' => '您发送了一张图片'
                     ]);

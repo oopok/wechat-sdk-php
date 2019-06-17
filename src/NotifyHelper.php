@@ -2,6 +2,8 @@
 
 namespace Yuanshe\WeChatSDK;
 
+use stdClass;
+
 /**
  * Class NotifyHelper
  * @package Yuanshe\WeChatSDK
@@ -25,7 +27,7 @@ class NotifyHelper
     public static function xmlToArray(string $xml)
     {
         $data = @simplexml_load_string($xml, null, LIBXML_NOCDATA);
-        return $data ? (array)$data : false;
+        return $data ? self::objectToArray($data) : false;
     }
 
     /**
@@ -47,6 +49,24 @@ class NotifyHelper
             }
         });
         return "<$rootElement>$xml</$rootElement>";
+    }
+
+    /**
+     * 将对象转换为数组
+     * @param $data
+     * @return array|bool
+     */
+    public static function objectToArray($data)
+    {
+        static $method = __METHOD__;
+        if (!is_object($data)) {
+            return false;
+        }
+        $result = (array)$data;
+        foreach ($result as &$value) {
+            $value instanceof stdClass and $value = $method($value);
+        }
+        return $result;
     }
 
     /**

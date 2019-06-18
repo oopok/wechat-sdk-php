@@ -64,7 +64,7 @@ class NotifyHelper
         }
         $result = (array)$data;
         foreach ($result as &$value) {
-            $value instanceof stdClass and $value = $method($value);
+            is_object($value) and $value = $method($value);
         }
         return $result;
     }

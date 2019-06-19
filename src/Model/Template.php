@@ -85,8 +85,8 @@ class Template extends ModelBase
      * $url和$miniProgram都是非必填字段，若都不传则模板无跳转；若都传，会优先跳转至小程序
      * @param string $toUser 接收者openid
      * @param string $templateID 模板ID
-     * @param array $data 模板数据
-     * @param string $url 模板跳转链接
+     * @param array $data 消息数据
+     * @param string $url 消息跳转链接
      * @param array $miniProgram 跳小程序所需数据
      * @return string
      * @throws Exception
@@ -102,5 +102,59 @@ class Template extends ModelBase
         $url and $data['url'] = $url;
         $miniProgram and $data['miniprogram'] = $miniProgram;
         return $this->request('/cgi-bin/message/template/send', $data)['msgid'] ?? '';
+    }
+
+    /**
+     * 推送一次性订阅模板消息
+     * @param string $toUser 接收者openid
+     * @param string $templateID 模板ID
+     * @param int $scene 订阅场景值
+     * @param string $title 消息标题。15字以内
+     * @param array $data 消息数据
+     * @param string $url 消息跳转链接
+     * @param array $miniProgram 跳小程序所需数据
+     * @throws Exception
+     * @throws ModelException
+     */
+    public function sendSubscribe(
+        string $toUser,
+        string $templateID,
+        int $scene,
+        string $title,
+        array $data,
+        string $url = '',
+        array $miniProgram = []
+    ) {
+        $data = [
+            'touser' => $toUser,
+            'template_id' => $templateID,
+            'scene' => $scene,
+            'title' => $title,
+            'data' => $data
+        ];
+        $url and $data['url'] = $url;
+        $miniProgram and $data['miniprogram'] = $miniProgram;
+        $this->request('/cgi-bin/message/template/subscribe', $data)['msgid'];
+    }
+
+    /**
+     * 生成一次性订阅消息的授权链接
+     * @param string $templateID 订阅消息模板ID
+     * @param int $scene 订阅场景值。重定向后会带上scene参数，开发者可以填0-10000的整形值，用来标识订阅场景值
+     * @param string $redirect 授权后重定向的回调地址
+     * @param string $reserved 用于保持请求和回调的状态，授权请后原样带回。开发者可以填写a-zA-Z0-9的参数值，最多128字节
+     * @return string 返回生成的URL，使用微信客户端访问
+     */
+    public function subscribeURL(string $templateID, int $scene, string $redirect, string $reserved = '')
+    {
+        $query = [
+            'action' => 'get_confirm',
+            'appid' => $this->common->config('appid'),
+            'scene' => $scene,
+            'template_id' => $templateID,
+            'redirect_url' => $redirect,
+        ];
+        $reserved and $query['reserved'] = $reserved;
+        return 'https://mp.weixin.qq.com/mp/subscribemsg' . http_build_query($reserved) . '#wechat_redirect';
     }
 }

@@ -70,7 +70,7 @@ class Media extends ModelBase
      */
     public function uploadNews(array $articles)
     {
-        return $this->request('/cgi-bin/material/add_news', ['articles' => $articles])['media_id'] ?? '';
+        return $this->request('/cgi-bin/media/uploadnews', ['articles' => $articles])['media_id'] ?? '';
     }
 
     /**

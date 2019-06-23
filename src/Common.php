@@ -30,9 +30,7 @@ class Common
      */
     public function __construct(array $config, CacheInterface $cacheInstance)
     {
-        $this->configContents = $config;
-        $this->cacheInstance = $cacheInstance;
-        $this->checkConfig([
+        static $rule = [
             'appid' => [
                 'type' => 'string',
                 'required' => true,
@@ -74,7 +72,12 @@ class Common
                 'type' => 'bool',
                 'defaults' => true
             ]
-        ]);
+        ];
+        $this->configContents = array_filter($config, function ($name) use ($rule) {
+            return isset($rule[$name]);
+        }, ARRAY_FILTER_USE_KEY);
+        $this->cacheInstance = $cacheInstance;
+        $this->checkConfig($rule);
         $this->httpClient = new Client([
             'base_uri' => 'https://' . $this->config('api_domain'),
             'timeout' => $this->config('timeout'),

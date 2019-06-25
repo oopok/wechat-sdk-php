@@ -66,22 +66,22 @@ class Menu extends ModelBase
 
     /**
      * 删除个性化菜单
-     * @param int $menuId
+     * @param int $menuID
      * @throws Exception
      */
-    public function delConditional(int $menuId)
+    public function delConditional(int $menuID)
     {
-        $this->request('/cgi-bin/menu/delete', ['menuid' => $menuId]);
+        $this->request('/cgi-bin/menu/delete', ['menuid' => $menuID]);
     }
 
     /**
      * 测试个性化菜单匹配结果
-     * @param string $userId 粉丝OpenID或微信号
+     * @param string $userID 粉丝OpenID或微信号
      * @return array
      * @throws Exception
      */
-    public function tryMatch(string $userId)
+    public function tryMatch(string $userID)
     {
-        return $this->request('/cgi-bin/menu/trymatch', ['user_id' => $userId]);
+        return $this->request('/cgi-bin/menu/trymatch', ['user_id' => $userID]);
     }
 }

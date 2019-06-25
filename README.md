@@ -17,7 +17,6 @@ _PS: 使用此工具前需要对公众号开发流程有一定了解，或结合
 ```
 composer require yuanshe/wechat-sdk @dev
 ```
-> _目前版本为开发版本，正式版本即将发布_
 
 ## 基本示例
 示例代码在`example`目录下，使用方式参考 [example说明](example/README.md)
@@ -104,6 +103,7 @@ $menu = $wechat->menu->get();
 - `Template` 模板消息
 - `OAuth` 微信网页OAuth2.0授权
 - `CustomService` 客服系统
+- `MassMessage` 群发消息
 
 更多接口正在完善中...
 

@@ -45,14 +45,14 @@ class Media extends ModelBase
 
     /**
      * 获取临时素材
-     * @param string $mediaId 待获取素材的media_id
+     * @param string $mediaID 待获取素材的media_id
      * @return StreamInterface|string video类型素材返回资源URL，其它类型素材返回StreamInterface实例
      * @throws Exception
      * @throws ModelException
      */
-    public function get(string $mediaId)
+    public function get(string $mediaID)
     {
-        $result = $this->request("/cgi-bin/media/get", [], ['query' => ['media_id' => $mediaId]]);
+        $result = $this->request("/cgi-bin/media/get", [], ['query' => ['media_id' => $mediaID]]);
         if (is_array($result) && isset($result['video_url'])) {
             return $result['video_url'];
         } else {
@@ -91,15 +91,33 @@ class Media extends ModelBase
     }
 
     /**
+     * 上传视频素材（用于群发消息）
+     * @param string $mediaID 从已有素材中选择一个video类型的素材id传入
+     * @param string $title 视频标题
+     * @param string $description 视频描述
+     * @return string 返回生成的素材ID
+     * @throws Exception
+     * @throws ModelException
+     */
+    public function uploadVideo(string $mediaID, string $title, string $description)
+    {
+        return $this->request('/cgi-bin/media/uploadvideo', [
+                'media_id' => $mediaID,
+                'title' => $title,
+                'description' => $description
+            ])['media_id'] ?? '';
+    }
+    
+    /**
      * 获取JSSDK高清语音素材
-     * @param string $mediaId 待获取素材的media_id
+     * @param string $mediaID 待获取素材的media_id
      * @return StreamInterface
      * @throws Exception
      * @throws ModelException
      */
-    public function getJSSDK(string $mediaId)
+    public function getJSSDK(string $mediaID)
     {
-        return $this->request("/cgi-bin/media/get/jssdk", [], ['query' => ['media_id' => $mediaId]]);
+        return $this->request("/cgi-bin/media/get/jssdk", [], ['query' => ['media_id' => $mediaID]]);
     }
 
     /**
@@ -138,16 +156,16 @@ class Media extends ModelBase
     /**
      * 修改永久图文素材
      * @see https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1444738732
-     * @param string $mediaId 图文素材的media_id
+     * @param string $mediaID 图文素材的media_id
      * @param int $index 要修改的文章在图文素材中的索引，0为素材中第一篇文章
      * @param array $article 图文素材article结构
      * @throws Exception
      * @throws ModelException
      */
-    public function updateNews(string $mediaId, int $index, array $article)
+    public function updateNews(string $mediaID, int $index, array $article)
     {
         $this->request('/cgi-bin/material/update_news', [
-            'media_id' => $mediaId,
+            'media_id' => $mediaID,
             'index' => $index,
             'articles' => $article
         ]);
@@ -176,26 +194,26 @@ class Media extends ModelBase
 
     /**
      * 获取永久素材
-     * @param string $mediaId 待获取素材的media_id
+     * @param string $mediaID 待获取素材的media_id
      * @return array|StreamInterface 图文素材与视频素材返回相应结构，其它类型素材返回StreamInterface实例
      * @throws Exception
      * @throws ModelException
      */
-    public function getMaterial(string $mediaId)
+    public function getMaterial(string $mediaID)
     {
-        return $this->request('/cgi-bin/material/get_material', ['media_id' => $mediaId]);
+        return $this->request('/cgi-bin/material/get_material', ['media_id' => $mediaID]);
     }
 
     /**
      * 删除永久素材
      * 请谨慎操作本接口，因为它可以删除公众号在公众平台官网素材管理模块中新建的图文消息、语音、视频等素材
-     * @param string $mediaId 待删除素材的media_id
+     * @param string $mediaID 待删除素材的media_id
      * @throws Exception
      * @throws ModelException
      */
-    public function delMaterial(string $mediaId)
+    public function delMaterial(string $mediaID)
     {
-        $this->request('/cgi-bin/material/del_material', ['media_id' => $mediaId]);
+        $this->request('/cgi-bin/material/del_material', ['media_id' => $mediaID]);
     }
 
     /**

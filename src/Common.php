@@ -127,7 +127,7 @@ class Common
         if (!$token) {
             throw new Exception('Unknown data');
         } elseif (!empty($token['errcode'])) {
-            throw new Exception($token['errmsg']);
+            throw new Exception('get access token error: ' . $token['errmsg']);
         } else {
             $this->cacheInstance->put('access_token', $token['access_token'], $token['expires_in'] / 2);
             return $token['access_token'];

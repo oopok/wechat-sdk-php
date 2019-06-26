@@ -10,7 +10,7 @@ use Yuanshe\WeChatSDK\Model\Comment;
 use Yuanshe\WeChatSDK\Model\Core;
 use Yuanshe\WeChatSDK\Model\CustomService;
 use Yuanshe\WeChatSDK\Model\MassMessage;
-use Yuanshe\WeChatSDK\Model\Media;
+use Yuanshe\WeChatSDK\Model\Material;
 use Yuanshe\WeChatSDK\Model\Menu;
 use Yuanshe\WeChatSDK\Model\OAuth;
 use Yuanshe\WeChatSDK\Model\Tag;
@@ -24,7 +24,7 @@ use Yuanshe\WeChatSDK\Model\User;
  * @license LGPL-3.0-or-later
  * @property-read Core core
  * @property-read Menu menu
- * @property-read Media media
+ * @property-read Material material
  * @property-read Comment comment
  * @property-read User user
  * @property-read Tag tag

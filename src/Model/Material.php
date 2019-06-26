@@ -15,11 +15,11 @@ use Yuanshe\WeChatSDK\ModelBase;
  * @author Yuanshe <admin@ysboke.com>
  * @see https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1444738726
  */
-class Media extends ModelBase
+class Material extends ModelBase
 {
     /***素材格式类型***/
-    const TYPE_IMAGE = 'image'; //max:2MB; type:PNG,JPEG,JPG,GIF
-    const TYPE_VOICE = 'voice'; //max:2MB,6s; type:AMR,MP3
+    const TYPE_IMAGE = 'image'; //max:2MB; type:PNG,JPEG,JPG,GIF (Material:BMP)
+    const TYPE_VOICE = 'voice'; //max:2MB,60s; type:AMR,MP3 (Material:WMA,WAV)
     const TYPE_VIDEO = 'video'; //max:10MB; type:MP4
     const TYPE_THUMB = 'thumb'; //max:64KB; type:JPG
     const TYPE_NEWS = 'news'; //array
@@ -50,7 +50,7 @@ class Media extends ModelBase
      * @throws Exception
      * @throws ModelException
      */
-    public function get(string $mediaID)
+    public function getMedia(string $mediaID)
     {
         $result = $this->request("/cgi-bin/media/get", [], ['query' => ['media_id' => $mediaID]]);
         if (is_array($result) && isset($result['video_url'])) {
@@ -61,7 +61,7 @@ class Media extends ModelBase
     }
 
     /**
-     * 上传图文素材
+     * 上传临时图文素材
      * @see https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1481187827_i0l21
      * @param array $articles 图文素材articles结构组
      * @return string 返回media_id
@@ -81,7 +81,7 @@ class Media extends ModelBase
      * @throws Exception
      * @throws ModelException
      */
-    public function uploadImg($content)
+    public function uploadImage($content)
     {
         return $this->request(
                 '/cgi-bin/media/uploadimg',
@@ -91,15 +91,29 @@ class Media extends ModelBase
     }
 
     /**
-     * 上传视频素材（用于群发消息）
-     * @param string $mediaID 从已有素材中选择一个video类型的素材id传入
+     * 上传临时视频素材
+     * @param string|resource|StreamInterface $content 素材的内容。可以是：二进制内容|fopen返回的资源|StreamInterface实例
      * @param string $title 视频标题
      * @param string $description 视频描述
-     * @return string 返回生成的素材ID
+     * @return string 返回生成的media_id。可用于群发消息
      * @throws Exception
      * @throws ModelException
      */
-    public function uploadVideo(string $mediaID, string $title, string $description)
+    public function uploadVideo($content, string $title, string $description)
+    {
+        return $this->uploadVideoByMediaID($this->upload(self::TYPE_VIDEO, $content), $title, $description);
+    }
+
+    /**
+     * 通过MediaID上传临时视频素材
+     * @param string $mediaID 传入一个video类型临时素材的media_id
+     * @param string $title 视频标题
+     * @param string $description 视频描述
+     * @return string 返回生成的media_id
+     * @throws Exception
+     * @throws ModelException
+     */
+    public function uploadVideoByMediaID(string $mediaID, string $title, string $description)
     {
         return $this->request('/cgi-bin/media/uploadvideo', [
                 'media_id' => $mediaID,
@@ -107,9 +121,9 @@ class Media extends ModelBase
                 'description' => $description
             ])['media_id'] ?? '';
     }
-    
+
     /**
-     * 获取JSSDK高清语音素材
+     * 获取JS-SDK高清语音素材
      * @param string $mediaID 待获取素材的media_id
      * @return StreamInterface
      * @throws Exception
@@ -130,7 +144,7 @@ class Media extends ModelBase
      * @throws Exception
      * @throws ModelException
      */
-    public function addMaterial(string $type, $content, &$imageUrl = null)
+    public function add(string $type, $content, &$imageUrl = null)
     {
         $result = $this->request('/cgi-bin/material/add_material', ['media' => $content], [
             'query' => ['type' => $type],
@@ -195,11 +209,11 @@ class Media extends ModelBase
     /**
      * 获取永久素材
      * @param string $mediaID 待获取素材的media_id
-     * @return array|StreamInterface 图文素材与视频素材返回相应结构，其它类型素材返回StreamInterface实例
+     * @return array|StreamInterface 图文素材与视频素材返回相应结构的数组，其它类型素材返回StreamInterface实例
      * @throws Exception
      * @throws ModelException
      */
-    public function getMaterial(string $mediaID)
+    public function get(string $mediaID)
     {
         return $this->request('/cgi-bin/material/get_material', ['media_id' => $mediaID]);
     }
@@ -211,7 +225,7 @@ class Media extends ModelBase
      * @throws Exception
      * @throws ModelException
      */
-    public function delMaterial(string $mediaID)
+    public function del(string $mediaID)
     {
         $this->request('/cgi-bin/material/del_material', ['media_id' => $mediaID]);
     }
@@ -222,7 +236,7 @@ class Media extends ModelBase
      * @throws Exception
      * @throws ModelException
      */
-    public function getMaterialCount()
+    public function getCount()
     {
         return $this->request('/cgi-bin/material/get_materialcount');
     }
@@ -236,7 +250,7 @@ class Media extends ModelBase
      * @throws Exception
      * @throws ModelException
      */
-    public function getMaterialList($type, $offset, $count)
+    public function getList($type, $offset, $count)
     {
         return $this->request('/cgi-bin/material/batchget_material', [
             'type' => $type,

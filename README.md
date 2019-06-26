@@ -1,8 +1,13 @@
 足够简洁的微信公众平台接口封装，只需要简单的配置即可轻松使用公众平台接口
 
-**目前项目处于开发阶段，部分功能未开发完成，且未经全面测试，生产环境及商业项目请谨慎使用！**
+_PS: 使用此工具前需要对微信公众平台对接流程有一定了解，或结合[微信官方文档](https://mp.weixin.qq.com/wiki)使用_
 
-_PS: 使用此工具前需要对公众号开发流程有一定了解，或结合微信官方文档使用_
+## 特点
+- 清晰简单的结构，容易上手，开发者还可以很轻松地扩展
+- 高度集成的封装，开发者不需要关心太多细节
+- 编码遵守PSR规范，没有混乱的代码
+- 完善的注释，符合PHPDoc标准，对IDE非常友好
+- 良好的兼容性，可在任意框架和任意环境上使用
 
 ## 运行环境
 - PHP 7.0+
@@ -17,6 +22,8 @@ _PS: 使用此工具前需要对公众号开发流程有一定了解，或结合
 ```
 composer require yuanshe/wechat-sdk @dev
 ```
+
+> _目前版本为开发版_
 
 ## 基本示例
 示例代码在`example`目录下，使用方式参考 [example说明](example/README.md)
@@ -56,7 +63,7 @@ $wechat = new WeChat($config, $cacheClass);
 |api_domain|string|否|api.weixin.qq.com|公众平台接口域名。使用默认配置即可，也可根据微信官方文档所列出的节点填写|
 
 ### <span id="cache-explain">缓存类</span>
-开发者需要编写一个实现`CacheInterface`接口的类，可参考`example/Cache` _(该文件仅供参考，实际开发时应尽量利用项目、框架中现有的缓存功能)_
+为尽可能避免出现重复的代码和不必要的依赖，项目中仅定义了缓存接口，并交由开发者自行实现。开发者需要编写一个实现`CacheInterface`接口的类，可参考`example/Cache` _(该文件仅供参考，实际开发时应尽量利用项目、框架中现有的缓存功能)_
 
 #### 需要实现的方法:
 
@@ -144,12 +151,12 @@ if ($notify instanceof Notify) {
   - **ConfigException** 配置参数出错时抛出该异常
 
 ### 处理消息
-`Notify`对象中包含消息的所有信息，可用如下方法获取:
+`Notify`对象中包含消息的所有信息，可用以下方法获取:
 - `getType(): int` 消息的类型。为`Notify::TYPE_MESSAGE`(消息) 或 `Notify::TYPE_EVENT`(事件)的值
-- `getSubType(): string` 通知的子类型，例如消息中的text、image，事件中的subscribe、scan等。所有值均为小写
-- `getContent(string $name = '')` 传入`name`时返回消息对应字段的值，默认返回消息全部内容的数组
+- `getSubType(): string` 通知的子类型。例如消息中的text、image，事件中的subscribe、scan等。所有值均为小写
+- `getContent(string $name = '')` 消息内容。传入`name`时返回消息对应字段的值，默认返回消息全部内容的数组
 - `getFromUserName(): string` 获取通知发送者用户名。一般为用户的OpenID
-- `getToUserName(): string` 获取通知接收者用户名。一般为公众号帐号，与account配置项一致
+- `getToUserName(): string` 获取通知接收者用户名。一般为公众号帐号，与配置项"account"一致
 - `getCreateTime(): string` 获取消息的创建时间
 
 ### 回复消息

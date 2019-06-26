@@ -16,6 +16,21 @@ use Yuanshe\WeChatSDK\ModelBase;
 class MassMessage extends ModelBase
 {
     /**
+     * 给所有用户群发
+     * @param string $type 消息类型
+     * @param array $content 消息内容
+     * @param bool $ignoreReprint 图文消息被判定为转载时，是否继续群发。 1为继续群发（转载），0为停止群发
+     * @param string $customID 自定义ID。用于防止重复发送消息，长度不得超过64 byte。默认以数据摘要作为自定义ID
+     * @return array 返回消息ID等信息
+     * @throws Exception
+     * @throws ModelException
+     */
+    public function sendAll(string $type, array $content, bool $ignoreReprint = true, string $customID = '')
+    {
+        return $this->sendByTag($type, $content, 0, $ignoreReprint, $customID);
+    }
+
+    /**
      * 根据标签群发
      * @param string $type 消息类型
      * @param array $content 消息内容

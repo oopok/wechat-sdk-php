@@ -16,7 +16,7 @@ use Yuanshe\WeChatSDK\ModelBase;
 class OAuth extends ModelBase
 {
 
-    const SCOPE_BASE = 'snsapi_base ';
+    const SCOPE_BASE = 'snsapi_base';
     const SCOPE_USER_INFO = 'snsapi_userinfo';
 
     /**

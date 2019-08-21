@@ -2,20 +2,8 @@
 
 namespace Yuanshe\WeChatSDK;
 
-use Yuanshe\WeChatSDK\Exception\Exception;
-use Yuanshe\WeChatSDK\Exception\ConfigException;
-use Yuanshe\WeChatSDK\Exception\ModelException;
-use Yuanshe\WeChatSDK\Exception\NotifyException;
-use Yuanshe\WeChatSDK\Model\Comment;
-use Yuanshe\WeChatSDK\Model\Core;
-use Yuanshe\WeChatSDK\Model\CustomService;
-use Yuanshe\WeChatSDK\Model\MassMessage;
-use Yuanshe\WeChatSDK\Model\Material;
-use Yuanshe\WeChatSDK\Model\Menu;
-use Yuanshe\WeChatSDK\Model\OAuth;
-use Yuanshe\WeChatSDK\Model\Tag;
-use Yuanshe\WeChatSDK\Model\Template;
-use Yuanshe\WeChatSDK\Model\User;
+use Yuanshe\WeChatSDK\Exception\{Exception, ConfigException, ModelException, NotifyException};
+use Yuanshe\WeChatSDK\Model\{Comment, Core, CustomService, MassMessage, Material, Menu, OAuth, Tag, Template, User};
 
 /**
  * Class WeChat
@@ -55,7 +43,17 @@ class WeChat
     public function __get(string $name)
     {
         $name = ucfirst($name);
-        return $this->models[$name] ?? $this->model($name);
+        return $this->model($name);
+    }
+
+    /**
+     * 获取一个模型实例
+     * @param string $name 模型名称
+     * @return ModelBase
+     */
+    public function model(string $name)
+    {
+        return $this->models[$name] ?? $this->loadModel($name);
     }
 
     /**
@@ -180,7 +178,7 @@ class WeChat
      * @param string $name 模型名称
      * @return ModelBase
      */
-    private function model(string $name)
+    private function loadModel(string $name)
     {
         $class_name = __NAMESPACE__ . "\\Model\\$name";
         return $this->models[$name] = new $class_name($this->common);

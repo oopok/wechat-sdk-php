@@ -86,7 +86,15 @@ $wechat = new WeChat($config, $cacheClass);
 
 ## 接口调用
 ### 基本用法
-接口以Model Class的形式封装，通过`WeChat`对象以属性的形式直接调用。_注意：Model名称区分大小写，类名以大写开头，调用时需以小写开头_
+接口以Model Class的形式封装，可以通过以下方式调用:
+```php
+// 以属性的形式直接调用。需使用LowerCamelCase(小写驼峰)
+$wechat->oAuth;
+
+// 通过model方法调用。需使用UpperCamelCase(大写驼峰)
+$wechat->model('OAuth');
+```
+对于IDE使用者，更推荐以属性的形式调用，因为IDE可以自动提示和补全。但无论使用哪种调用方式，都应**区分大小写**
 
 #### Demo
 获取关注用户列表:
@@ -97,6 +105,7 @@ $user_list = $wechat->user->getList();
 ```php
 $menu = $wechat->menu->get();
 ```
+
 ### Throws
 如果公众平台接口返回错误码，程序会抛出`ModelException`异常，可以通过`getCode`和`getMessage`方法获取错误码和错误消息，`getModel`方法可以获取到Model名称
 

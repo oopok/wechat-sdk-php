@@ -62,7 +62,7 @@ class Common
             ],
             'cache_prefix' => [
                 'type' => 'string',
-                'required' => true
+                'nonempty' => true
             ],
             'timeout' => [
                 'type' => 'numeric',

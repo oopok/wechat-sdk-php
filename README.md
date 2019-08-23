@@ -26,7 +26,7 @@ composer require yuanshe/wechat-sdk @dev
 > _目前版本为开发版_
 
 ## 基本示例
-示例代码在`example`目录下，使用方式参考 [example说明](example/README.md)
+`example`目录下是常见使用示例，使用方式可参考 [example说明](example/README.md)
 
 ## 开始
 *Tips: 项目主命名空间为`Yuanshe\WeChatSDK`，说明中出现的类名称均省略命名空间*
@@ -57,7 +57,7 @@ $wechat = new WeChat($config, $cacheClass);
 |token|string|消息通知必填|无|与公众平台"服务器配置"中的Token一致即可|
 |encrypt|bool|否|true|是否开启消息加密(公众平台安全模式为兼容模式时此选项才有效，否则根据公众平台自身设置决定是否加密)|
 |ase_key|string|开启消息加密时必填|无|消息加解密密钥|
-|cache_prefix|string|是|无|缓存前缀。请务必确保前缀在项目中的唯一性，防止与项目中其他缓存冲突|
+|cache_prefix|string|否|填写的appid|缓存前缀。请务必确保前缀在项目中的唯一性，防止与项目中其他缓存冲突|
 |timeout|int|否|0|接口请求超时时间，0为永不超时|
 |ssl_verify|bool|否|true|是否启用SSL证书验证，生产环境下建议开启|
 |api_domain|string|否|api.weixin.qq.com|公众平台接口域名。使用默认配置即可，也可根据微信官方文档所列出的节点填写|

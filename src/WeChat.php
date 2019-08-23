@@ -37,7 +37,7 @@ class WeChat
         if (!is_subclass_of($cacheClass, CacheInterface::class)) {
             throw new Exception('parameter 2 must implement \'' . CacheInterface::class . "', '$cacheClass' given");
         }
-        $this->common = new Common($config, new $cacheClass($config['cache_prefix']));
+        $this->common = new Common($config, new $cacheClass($config['cache_prefix'] ?? $config['appid'] ?? null));
     }
 
     public function __get(string $name)

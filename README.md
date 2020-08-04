@@ -20,10 +20,8 @@ _PS: 使用此工具前需要对微信公众平台对接流程有一定了解，
 
 ## 安装
 ```
-composer require yuanshe/wechat-sdk @dev
+composer require yuanshe/wechat-sdk
 ```
-
-> _目前版本为开发版_
 
 ## 基本示例
 `example`目录下是常见使用示例，使用方式可参考 [example说明](example/README.md)
